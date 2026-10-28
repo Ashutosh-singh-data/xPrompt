@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   ConsultOS design tokens
+   Palette: deep navy chrome, white working surfaces, cobalt accent,
+   muted semantic colours for status. Tuned for long analytical sessions.
+------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Surfaces */
+  --color-canvas: #F4F6FA;
+  --color-surface: #FFFFFF;
+  --color-subtle: #F8FAFC;
+  --color-line: #E4E9F0;
+  --color-line-strong: #CFD8E3;
+
+  /* Text */
+  --color-ink: #0F1B2D;
+  --color-body: #334155;
+  --color-muted: #64748B;
+  --color-faint: #94A3B8;
+
+  /* Navy chrome (sidebar, code blocks) */
+  --color-navy-950: #071427;
+  --color-navy-900: #0B1F3A;
+  --color-navy-800: #12294A;
+  --color-navy-700: #1B3860;
+  --color-navy-600: #2A4A78;
+
+  /* Brand accent */
+  --color-brand-50: #EEF4FF;
+  --color-brand-100: #DCE8FF;
+  --color-brand-200: #BBD2FF;
+  --color-brand-500: #3B6FE8;
+  --color-brand-600: #1F55D6;
+  --color-brand-700: #1A44AE;
+
+  --shadow-card: 0 1px 2px rgba(15, 27, 45, 0.05), 0 1px 3px rgba(15, 27, 45, 0.04);
+  --shadow-raised: 0 4px 12px -2px rgba(15, 27, 45, 0.08), 0 2px 4px rgba(15, 27, 45, 0.04);
+  --shadow-pop: 0 24px 56px -12px rgba(7, 20, 39, 0.4);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-brand-100);
+    color: var(--color-ink);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Reusable building blocks
+------------------------------------------------------------------- */
+@layer components {
+  .card {
+    @apply bg-surface border border-line rounded-xl shadow-card;
+  }
+
+  .card-interactive {
+    @apply transition-all duration-150 cursor-pointer;
+  }
+  .card-interactive:hover {
+    @apply border-line-strong shadow-raised;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg text-sm font-medium whitespace-nowrap transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-sm {
+    @apply h-8 px-3 text-[13px] gap-1.5;
+  }
+  .btn-primary {
+    @apply bg-brand-600 text-white shadow-card hover:bg-brand-700;
+  }
+  .btn-secondary {
+    @apply bg-surface text-ink border border-line-strong hover:bg-subtle hover:border-faint;
+  }
+  .btn-danger {
+    @apply bg-rose-600 text-white shadow-card hover:bg-rose-700;
+  }
+  .btn-danger-soft {
+    @apply bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100;
+  }
+  .btn-success {
+    @apply bg-emerald-700 text-white shadow-card hover:bg-emerald-800;
+  }
+  .btn-ghost {
+    @apply text-muted hover:text-ink hover:bg-slate-100;
+  }
+  .icon-btn {
+    @apply inline-flex items-center justify-center w-9 h-9 rounded-lg text-muted hover:text-ink hover:bg-slate-100 transition-colors disabled:opacity-50;
+  }
+
+  /* Form controls */
+  .label {
+    @apply block text-sm font-medium text-ink mb-2;
+  }
+  .hint {
+    @apply text-[13px] text-muted mt-2;
+  }
+  .input {
+    @apply w-full rounded-lg border border-line-strong bg-surface px-3.5 py-2.5 text-sm text-ink placeholder:text-faint transition-shadow;
+  }
+  .input:focus {
+    @apply outline-none border-brand-600;
+    box-shadow: 0 0 0 4px rgb(31 85 214 / 0.12);
+  }
+
+  /* Small inline pieces */
+  .id-chip {
+    @apply inline-flex items-center gap-1 font-mono text-xs text-body bg-slate-100 border border-line rounded-md px-2 py-0.5;
+  }
+  .tag {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium rounded-full border px-2.5 py-0.5;
+  }
+  .meta-label {
+    @apply block text-xs font-medium text-muted mb-1;
+  }
+  .code-block {
+    @apply font-mono text-[13px] leading-relaxed bg-navy-900 text-sky-100 rounded-lg p-4 overflow-x-auto;
+  }
+
+  /* Table */
+  .table-head {
+    @apply bg-subtle text-muted text-xs font-semibold;
+  }
+
+  /* Modal motion (responds to a person's action, so it stays) */
+  .modal-backdrop {
+    animation: backdrop-in 160ms ease-out;
+  }
+  .modal-panel {
+    animation: panel-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+  background-clip: content-box;
+  border: 2px solid transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

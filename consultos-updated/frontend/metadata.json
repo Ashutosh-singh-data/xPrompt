@@ -1,0 +1,6 @@
+{
+  "name": "ConsultOS",
+  "description": "Autonomous business investigation and analytical workflow platform connecting to FastAPI backend with task DAG execution, replanning, evidence explorer, and verified report generation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
